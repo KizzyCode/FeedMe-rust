@@ -1,0 +1,41 @@
+[package]
+name = "feedme-ytdlp"
+version = "0.1.0"
+edition = "2021"
+authors = ["KizzyCode Software Labs./Keziah Biermann <development@kizzycode.de>"]
+keywords = []
+categories = []
+description = "Creates an RSS podcast feed from a YouTube playlist"
+license = "BSD-2-Clause OR MIT"
+repository = "https://github.com/KizzyCode/FeedMe-rust"
+readme = "README.md"
+
+
+[[bin]]
+name = "feedme-ytdlp"
+path = "src/main.rs"
+
+
+[badges]
+appveyor = { repository = "KizzyCode/FeedMe-rust" }
+
+
+[features]
+default = []
+
+
+[dependencies]
+serde = { version = "1.0.152", default-features = false, features = ["std", "derive"] }
+serde_json = { version = "1.0.91", default-features = false, features = ["std"] }
+time = { version = "0.3.17", default-features = false, features = ["std", "parsing", "macros"] }
+feedme-feed = { version = "0.1.0", path = "../feed" }
+
+[target."cfg(unix)".dependencies]
+libc = { version = "0.2.139", default-features = false }
+
+
+[profile.release]
+overflow-checks = true
+
+[profile.bench]
+overflow-checks = true

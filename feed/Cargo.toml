@@ -1,0 +1,32 @@
+[package]
+name = "feedme-feed"
+version = "0.1.0"
+edition = "2021"
+authors = ["KizzyCode Software Labs./Keziah Biermann <development@kizzycode.de>"]
+keywords = []
+categories = []
+description = "Creates an RSS podcast feed from a playlist"
+license = "BSD-2-Clause OR MIT"
+repository = "https://github.com/KizzyCode/FeedMe-rust"
+readme = "README.md"
+
+
+[badges]
+appveyor = { repository = "KizzyCode/FeedMe-rust" }
+
+
+[features]
+default = []
+
+
+[dependencies]
+blake2 = { version = "0.10.6", default-features = false, features = ["std"] }
+time = { version = "0.3.17", default-features = false, features = ["std", "formatting"] }
+xml-rs = { version = "0.8.4", default-features = false }
+
+
+[profile.release]
+overflow-checks = true
+
+[profile.bench]
+overflow-checks = true
