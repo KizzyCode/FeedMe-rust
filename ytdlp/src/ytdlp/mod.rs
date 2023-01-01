@@ -12,7 +12,7 @@ use feedme_feed::{
     uuid::UuidBuilder,
 };
 use serde_json::Value;
-use std::{collections::BTreeMap, fs};
+use std::{collections::BTreeMap, fs, path::Path};
 use time::{format_description::FormatItem, macros::format_description, Date};
 
 /// A `yt-dlp` interface
@@ -139,6 +139,7 @@ impl YtDlp {
             // Build the correct path
             let basename = name.strip_suffix(".info.json").expect("invalid name of metadata file");
             let video_name = format!("{basename}.mp4");
+            let video_path = Path::new(&video_name).canonicalize()?;
 
             // Get the file metadata and compute UUID
             eprintln!("[feedme-ytdlp] Computing UUID for: {video_name}");
@@ -152,7 +153,7 @@ impl YtDlp {
 
             // Build the entry
             let entry = Entry {
-                path: video_name,
+                path: video_path,
                 size: file_meta.len(),
                 type_: "video/mp4".to_string(),
                 title: meta.title.clone(),

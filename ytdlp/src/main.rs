@@ -2,7 +2,7 @@
 
 mod error;
 
-use feedme_feed::Rss;
+use feedme_feed::{Config, Rss};
 use feedme_ytdlp::{error::Error, YtDlp};
 use std::{backtrace::BacktraceStatus, env, process};
 
@@ -34,10 +34,11 @@ fn main_real() -> Result<(), Error> {
     // Get the argument and skip argv[0]
     let mut args = env::args().skip(1);
 
-    // Get the URL or display the help
+    // Get the URL and load the config
     let Some(playlist_url) = args.next() else {
         exit_help();
     };
+    let config = Config::load()?;
 
     // Download playlist
     let mut yt_dlp = YtDlp::new(playlist_url);
@@ -45,7 +46,7 @@ fn main_real() -> Result<(), Error> {
     let playlist = yt_dlp.download()?;
 
     // Create feed
-    let feed = Rss::new(playlist).serialize()?;
+    let feed = Rss::new(config, playlist).serialize()?;
     println!("{feed}");
     Ok(())
 }

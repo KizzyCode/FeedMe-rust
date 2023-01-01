@@ -3,7 +3,7 @@
 [![AppVeyor CI](https://ci.appveyor.com/api/projects/status/github/KizzyCode/FeedMe-rust?svg=true)](https://ci.appveyor.com/project/KizzyCode/FeedMe-rust)
 
 
-# `feedme`
+# `FeedMe`
 FeedMe is a collection of libraries and tools to create podcast feeds from various sources.
 
 

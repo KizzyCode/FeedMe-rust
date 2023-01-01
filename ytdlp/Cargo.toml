@@ -25,10 +25,10 @@ default = []
 
 
 [dependencies]
+feedme-feed = { version = "0.1.0", path = "../feed" }
 serde = { version = "1.0.152", default-features = false, features = ["std", "derive"] }
 serde_json = { version = "1.0.91", default-features = false, features = ["std"] }
 time = { version = "0.3.17", default-features = false, features = ["std", "parsing", "macros"] }
-feedme-feed = { version = "0.1.0", path = "../feed" }
 
 [target."cfg(unix)".dependencies]
 libc = { version = "0.2.139", default-features = false }

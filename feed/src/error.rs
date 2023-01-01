@@ -6,6 +6,7 @@ use std::{
     error,
     fmt::{self, Display, Formatter},
     io,
+    path::StripPrefixError,
     str::Utf8Error,
 };
 
@@ -72,6 +73,11 @@ impl From<Utf8Error> for Error {
         error!(with: error)
     }
 }
+impl From<StripPrefixError> for Error {
+    fn from(error: StripPrefixError) -> Self {
+        error!(with: error)
+    }
+}
 impl From<Infallible> for Error {
     fn from(_: Infallible) -> Self {
         unreachable!("infallible can never be constructed");
@@ -104,6 +110,11 @@ impl From<Format> for Error {
 }
 impl From<xml::writer::Error> for Error {
     fn from(error: xml::writer::Error) -> Self {
+        error!(with: error)
+    }
+}
+impl From<toml::de::Error> for Error {
+    fn from(error: toml::de::Error) -> Self {
         error!(with: error)
     }
 }

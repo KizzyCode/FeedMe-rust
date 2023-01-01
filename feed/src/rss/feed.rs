@@ -39,8 +39,8 @@ impl XmlWrite for Enclosure {
 /// A playlist item
 #[derive(Debug, Clone)]
 pub struct Item {
-    /// An item's title (`itunes:title`)
-    pub itunes_title: String,
+    /// An item's title (`title`)
+    pub title: String,
     /// The item's description (`description`)
     pub description: Option<String>,
     /// An item's enclosure tag (`enclosure`)
@@ -63,7 +63,7 @@ impl XmlWrite for Item {
 
         // Write object
         writer.write(XmlEvent::start_element("item"))?;
-        self.itunes_title.write("itunes:title", writer)?;
+        self.title.write("title", writer)?;
         self.description.write("description", writer)?;
         self.enclosure.write(writer)?;
         self.guid.write("guid", writer)?;
