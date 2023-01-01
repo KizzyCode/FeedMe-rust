@@ -9,6 +9,11 @@ FeedMe is a collection of libraries and tools to create podcast feeds from vario
 
 ## Example
 ```sh
+# Define the server webroot and base URL
+# (RSS needs absolute URLs and those variables are needed to create an absolute URL from a file path)
+export FEEDME_WEBROOT=/var/www
+export FEEDME_BASE_URL=https://example.com
+
 # Convert YouTube playlist into a podcast feed
 feedme-ytdlp https://youtu.be/my_playlist > feed.rss
 ```
