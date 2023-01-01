@@ -70,7 +70,7 @@ impl YtDlp {
         };
 
         // Pipe stdout and stderr to stderr
-        // Note: This is safe, because `libc::dup` is a safe function and `Stdio::from_raw_fd` does not raise ownership
+        // Note: This is safe, because `libc::dup` is a safe function and `Stdio::from_raw_fd` does not cause ownership
         // issues because it owns the duplicated file descriptor exclusively
         let stderr_fd = io::stderr().as_raw_fd();
         let stdout_stderr = unsafe {
