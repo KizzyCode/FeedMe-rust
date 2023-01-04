@@ -11,7 +11,7 @@ FeedMe is a collection of libraries and tools to create podcast feeds from vario
 ```sh
 # Download the playlist and metadata as mp4
 yt-dlp --write-info-json --write-playlist-metafiles \
-    --write-thumbnail --convert-thumbnails=png \
+    --write-thumbnail --convert-thumbnails=jpg \
     --restrict-filenames \
     --format="bestvideo[ext=mp4][vcodec^=avc1]+bestaudio[ext=m4a] \
         /best[ext=mp4][vcodec^=avc1]/best[ext=mp4]/best" \
