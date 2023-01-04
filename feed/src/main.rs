@@ -26,10 +26,10 @@ fn exit_error(e: Error) -> ! {
 fn main_real() -> Result<(), Error> {
     // Load the required variables from the environment
     let Ok(base_url) = env::var("FEEDME_BASE_URL") else {
-        return Err(error!("Missing FEEDME_BASE_URL environment variable"));
+        return Err(error!("missing FEEDME_BASE_URL environment variable"));
     };
     let Ok(webroot) = env::var("FEEDME_WEBROOT") else {
-        return Err(error!("Missing FEEDME_WEBROOT environment variable"));
+        return Err(error!("missing FEEDME_WEBROOT environment variable"));
     };
 
     // Canonicalize metadata

@@ -27,7 +27,7 @@ fn main_real() -> Result<(), Error> {
     // Get the argument and skip argv[0]
     let mut args = env::args().skip(1);
     if let Some(arg) = args.next() {
-        return Err(error!("Unexpected argument: {arg}"));
+        return Err(error!("unexpected argument: {arg}"));
     }
 
     // Canonicalize metadata

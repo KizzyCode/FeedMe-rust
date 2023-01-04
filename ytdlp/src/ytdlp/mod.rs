@@ -56,7 +56,7 @@ fn translate_entry_meta(name: String, meta: EntryMeta) -> Result<(), Error> {
     let video_name = format!("{basename}.{}", meta.ext);
 
     // Check if the entry exists already
-    let entry_json_name = format!("playlist-entry{:05}.feedme", meta.playlist_index - 1);
+    let entry_json_name = format!("playlist-entry{:05}.feedme", meta.playlist_index);
     if Path::new(&entry_json_name).exists() {
         eprintln!("[feedme-ytdlp] Skipping existing entry: {video_name}");
         return Ok(());
