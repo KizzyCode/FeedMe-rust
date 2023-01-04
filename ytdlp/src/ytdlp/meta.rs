@@ -1,7 +1,5 @@
 //! Metadata schemas
 
-use std::any::Any;
-
 use crate::{error, error::Error};
 use serde::Deserialize;
 use serde_json::Value;
@@ -37,6 +35,8 @@ pub struct PlaylistMeta {
 pub struct EntryMeta {
     /// The youtube video ID
     pub id: String,
+    /// The extension of the video file
+    pub ext: String,
     /// The human readable video title
     pub title: String,
     /// The video description
@@ -47,8 +47,6 @@ pub struct EntryMeta {
     pub upload_date: String,
     /// The index within the playlist (starting with 1)
     pub playlist_index: u64,
-    /// The amount of items within the playlist
-    pub playlist_count: u64,
 }
 
 /// Some metadata
@@ -58,19 +56,6 @@ pub enum Meta {
     Playlist(PlaylistMeta),
     /// Playlist entry associated metadata
     Entry(EntryMeta),
-}
-impl Meta {
-    /// Tries to get the enum payload as `T`
-    pub fn try_as<T>(&self) -> Option<&T>
-    where
-        T: 'static,
-    {
-        let payload: &dyn Any = match self {
-            Self::Playlist(playlist) => playlist,
-            Self::Entry(entry) => entry,
-        };
-        payload.downcast_ref()
-    }
 }
 impl TryFrom<Value> for Meta {
     type Error = Error;

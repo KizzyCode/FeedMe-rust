@@ -1,12 +1,11 @@
 #![doc = include_str!("../README.md")]
 
-pub mod config;
 pub mod error;
-pub mod rss;
+pub mod metadata;
 pub mod uuid;
 
 pub use crate::{
-    config::Config,
-    rss::{Entry, Playlist, Rss},
+    error::Error,
+    metadata::{Entry, Playlist},
     uuid::{Uuid, UuidBuilder},
 };

@@ -1,5 +1,5 @@
 [package]
-name = "feedme-feed"
+name = "feedme-shared"
 version = "0.1.0"
 edition = "2021"
 authors = ["KizzyCode Software Labs./Keziah Biermann <development@kizzycode.de>"]
@@ -20,11 +20,8 @@ default = []
 
 
 [dependencies]
-feedme-shared = { version = "0.1.0", path = "../shared" }
-serde_json = { version = "1.0.91", default-features = false, features = ["std"] }
-time = { version = "0.3.17", default-features = false, features = ["std", "formatting"] }
-urlencoding = { version = "2.1.2", default-features = false }
-xml-rs = { version = "0.8.4", default-features = false }
+blake2 = { version = "0.10.6", default-features = false, features = ["std"] }
+serde = { version = "1.0.152", default-features = false, features = ["std", "derive"] }
 
 
 [profile.release]
