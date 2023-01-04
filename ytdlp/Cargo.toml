@@ -5,7 +5,7 @@ edition = "2021"
 authors = ["KizzyCode Software Labs./Keziah Biermann <development@kizzycode.de>"]
 keywords = []
 categories = []
-description = "Creates an RSS podcast feed from a YouTube playlist"
+description = "Canonicalizes the metadata from a yt-dlp playlist for further use with FeedMe"
 license = "BSD-2-Clause OR MIT"
 repository = "https://github.com/KizzyCode/FeedMe-rust"
 readme = "README.md"
@@ -25,7 +25,7 @@ default = []
 
 
 [dependencies]
-feedme-feed = { version = "0.1.0", path = "../feed" }
+feedme-shared = { version = "0.1.0", path = "../shared" }
 serde = { version = "1.0.152", default-features = false, features = ["std", "derive"] }
 serde_json = { version = "1.0.91", default-features = false, features = ["std"] }
 time = { version = "0.3.17", default-features = false, features = ["std", "parsing", "macros"] }

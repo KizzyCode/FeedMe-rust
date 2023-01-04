@@ -5,6 +5,7 @@ use blake2::{
     digest::{Update, VariableOutput},
     Blake2bVar,
 };
+use serde::{Deserialize, Serialize};
 use std::{
     fmt::{self, Display, Formatter},
     fs::File,
@@ -12,12 +13,12 @@ use std::{
     path::Path,
 };
 
-/// A UUID builder for files
+/// A builder to create deterministic file-unique UUIDs
 #[derive(Debug, Clone, Copy)]
 pub struct UuidBuilder<'a> {
-    /// The domain for domain separation
+    /// The domain context for domain separation
     domain: Option<&'a [u8]>,
-    /// Operation specific context
+    /// The file specific context (e.g. an external file ID etc.)
     context: Option<&'a [u8]>,
 }
 impl<'a> UuidBuilder<'a> {
@@ -58,7 +59,7 @@ impl<'a> UuidBuilder<'a> {
         hasher.update(self.domain.unwrap_or(&Self::DEFAULT_DOMAIN));
         hasher.update(self.context.unwrap_or(&Self::DEFAULT_CONTEXT));
 
-        // Hash file
+        // Ingest file
         let mut file = {
             let file = File::open(file)?;
             BufReader::new(file)
@@ -70,7 +71,7 @@ impl<'a> UuidBuilder<'a> {
                 break 'read_file;
             }
 
-            // Ingest data
+            // Ingest chunk
             hasher.update(data);
             let len = data.len();
             file.consume(len);
@@ -84,7 +85,7 @@ impl<'a> UuidBuilder<'a> {
 }
 
 /// A UUID
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[repr(transparent)]
 pub struct Uuid {
     /// The UUID bytes

@@ -1,6 +1,6 @@
 #![doc = include_str!("../README.md")]
 
-mod ytdlp;
+mod rss;
 
 use feedme_shared::{error, Error};
 use std::{env, process};
@@ -24,14 +24,16 @@ fn exit_error(e: Error) -> ! {
 
 /// The fallible, real main function
 fn main_real() -> Result<(), Error> {
-    // Get the argument and skip argv[0]
-    let mut args = env::args().skip(1);
-    if let Some(arg) = args.next() {
-        return Err(error!("Unexpected argument: {arg}"));
-    }
+    // Load the required variables from the environment
+    let Ok(base_url) = env::var("FEEDME_BASE_URL") else {
+        return Err(error!("Missing FEEDME_BASE_URL environment variable"));
+    };
+    let Ok(webroot) = env::var("FEEDME_WEBROOT") else {
+        return Err(error!("Missing FEEDME_WEBROOT environment variable"));
+    };
 
     // Canonicalize metadata
-    ytdlp::canonicalize_meta()
+    rss::build_feed(&base_url, &webroot)
 }
 
 fn main() {

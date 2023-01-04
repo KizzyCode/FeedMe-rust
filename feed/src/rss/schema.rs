@@ -1,11 +1,8 @@
 //! Common RSS podcast feed XML tags
 
-use crate::{
-    error,
-    error::Error,
-    rss::xml_utils::{XmlWrite, XmlWritePrimitive},
-    Uuid,
-};
+use crate::rss::xml_utils::{XmlWrite, XmlWritePrimitive};
+use feedme_shared::{error, Error, Uuid};
+use std::io::Write;
 use time::{format_description::well_known::Rfc2822, OffsetDateTime};
 use xml::{writer::XmlEvent, EventWriter};
 
@@ -19,8 +16,11 @@ pub struct Enclosure {
     /// The file URL (`url`)
     pub url: String,
 }
-impl XmlWrite for Enclosure {
-    fn write(&self, writer: &mut EventWriter<&mut Vec<u8>>) -> Result<(), Error> {
+impl<T> XmlWrite<T> for Enclosure
+where
+    T: Write,
+{
+    fn write(&self, writer: &mut EventWriter<T>) -> Result<(), Error> {
         // Serialize the tag
         let length = self.length.to_string();
         let tag_start = XmlEvent::start_element("enclosure")
@@ -52,8 +52,11 @@ pub struct Item {
     /// An item's duration in seconds (`itunes:duration`)
     pub itunes_duration: u64,
 }
-impl XmlWrite for Item {
-    fn write(&self, writer: &mut EventWriter<&mut Vec<u8>>) -> Result<(), Error> {
+impl<T> XmlWrite<T> for Item
+where
+    T: Write,
+{
+    fn write(&self, writer: &mut EventWriter<T>) -> Result<(), Error> {
         // Format the date
         let pub_date = {
             let timestamp = i64::try_from(self.pub_date).map_err(|e| error!(with: e, "timestamp is too large"))?;
@@ -90,8 +93,11 @@ pub struct Channel {
     /// The playlist member items
     pub items: Vec<Item>,
 }
-impl XmlWrite for Channel {
-    fn write(&self, writer: &mut EventWriter<&mut Vec<u8>>) -> Result<(), Error> {
+impl<T> XmlWrite<T> for Channel
+where
+    T: Write,
+{
+    fn write(&self, writer: &mut EventWriter<T>) -> Result<(), Error> {
         // Write object
         writer.write(XmlEvent::start_element("channel"))?;
         self.title.write("title", writer)?;
@@ -115,8 +121,11 @@ pub struct Feed {
     /// The channel data (`channel`)
     pub channel: Channel,
 }
-impl XmlWrite for Feed {
-    fn write(&self, writer: &mut EventWriter<&mut Vec<u8>>) -> Result<(), Error> {
+impl<T> XmlWrite<T> for Feed
+where
+    T: Write,
+{
+    fn write(&self, writer: &mut EventWriter<T>) -> Result<(), Error> {
         // Serialize the tag
         let tag = XmlEvent::start_element("rss")
             .attr("version", "2.0")

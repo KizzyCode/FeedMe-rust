@@ -1,0 +1,18 @@
+Usage: feedme-ytdlp
+
+Extracts metadata from yt-dlp's info.json files within the current
+working directory. To download the required metadata together with
+the playlist, use:
+    --write-info-json --write-playlist-metafiles
+
+Example:
+    # Download the playlist and metadata as mp4
+    yt-dlp --write-info-json --write-playlist-metafiles \
+        --write-thumbnail --restrict-filenames \
+        --format="bestvideo[ext=mp4][vcodec^=avc1]+bestaudio[ext=m4a] \
+            /best[ext=mp4][vcodec^=avc1]/best[ext=mp4]/best" \
+        $URL
+    
+    # Extract and canonicalize the yt-dlp generated metadata
+    feedme-ytdlp
+
