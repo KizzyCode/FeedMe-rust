@@ -1,6 +1,6 @@
 //! Common RSS podcast feed XML tags
 
-use crate::rss::xml_utils::{XmlWrite, XmlWritePrimitive};
+use crate::rss::helpers::{XmlWrite, XmlWritePrimitive};
 use feedme_shared::{error, Error, Uuid};
 use std::io::Write;
 use time::{format_description::well_known::Rfc2822, OffsetDateTime};
