@@ -1,14 +1,15 @@
 //! An RSS podcast feed
 
+mod helpers;
 mod schema;
-mod xml_utils;
 
 use crate::rss::{
+    helpers::XmlWrite,
     schema::{Channel, Enclosure, Feed, Item},
-    xml_utils::XmlWrite,
 };
 use feedme_shared::{error, Entry, Error, Playlist};
 use std::{
+    collections::BTreeSet,
     fs::{self, File},
     path::{Component, Path},
 };
@@ -35,10 +36,13 @@ pub fn build_feed(base_url: &str, webroot: &str) -> Result<(), Error> {
 
     // Serialize items
     for entry in entries {
+        // Build the enclosure entry referencing the file
         let enclosure = {
             let url = absolute_url(&entry.file, webroot, base_url)?;
             Enclosure { length: entry.size, type_: entry.type_, url }
         };
+
+        // Create the playlist item
         let item = Item {
             title: entry.title,
             description: entry.description,
@@ -67,17 +71,37 @@ fn collect_metadata() -> Result<(Playlist, Vec<Entry>), Error> {
     let playlist_bin = fs::read("playlist-meta.feedme")?;
     let playlist = serde_json::from_slice(&playlist_bin)?;
 
-    // Read the entries
-    let mut entries = Vec::new();
-    'read_entries: for index in 0.. {
-        // Build the entry name and check if the entry exists
-        let name = format!("playlist-entry{:05}.feedme", index);
-        if !Path::new(&name).exists() {
-            break 'read_entries;
+    // List all entry files and sort them
+    let mut entry_names = BTreeSet::new();
+    'list_dir: for file in fs::read_dir(".")? {
+        // Unwrap the entry or skip it
+        let Ok(file) = file else {
+            continue 'list_dir;
+        };
+
+        // Get the filename and check that it references a feedme file
+        let file_name_os = file.file_name();
+        let Some(file_name) = file_name_os.to_str() else {
+            continue 'list_dir;
+        };
+
+        // Ensure that the file is a playlist entry
+        if !file_name.starts_with("playlist-entry") {
+            continue 'list_dir;
+        }
+        if !file_name.ends_with(".feedme") {
+            continue 'list_dir;
         }
 
+        // Collect the entry
+        entry_names.insert(file_name.to_string());
+    }
+
+    // Process the entries in order
+    let mut entries = Vec::new();
+    for entry_name in entry_names {
         // Parse the entry
-        let entry_bin = fs::read(name)?;
+        let entry_bin = fs::read(entry_name)?;
         let entry = serde_json::from_slice(&entry_bin)?;
         entries.push(entry);
     }
@@ -89,7 +113,7 @@ fn absolute_url(file: &str, webroot: &str, base_url: &str) -> Result<String, Err
     // Create the relative path
     let canonical = Path::new(file).canonicalize()?;
     if !canonical.starts_with(webroot) {
-        return Err(error!("File is not within webroot: {}", canonical.display()));
+        return Err(error!("file is not within webroot: {}", canonical.display()));
     }
 
     // Create the relative path and the URL
@@ -100,7 +124,7 @@ fn absolute_url(file: &str, webroot: &str, base_url: &str) -> Result<String, Err
     for component in relative_path.components() {
         // Get the path component
         let Component::Normal(component) = component else {
-            return Err(error!("unexpected path componend: {component:?}"));
+            return Err(error!("unexpected path component: {component:?}"));
         };
 
         // Escape the path component
