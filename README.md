@@ -29,6 +29,3 @@ export FEEDME_BASE_URL=https://example.org
 # Generate the feed into feed.rss
 feedme-feed
 ```
-
-## TODO
- - [ ] Fetch playlist images for youtube
