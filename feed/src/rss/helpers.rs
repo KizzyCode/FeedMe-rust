@@ -68,3 +68,15 @@ pub trait XmlWrite<T> {
     /// Writes `self` as XML element to the writer
     fn write(&self, writer: &mut EventWriter<T>) -> Result<(), Error>;
 }
+impl<T, W> XmlWrite<W> for Option<T>
+where
+    T: XmlWrite<W>,
+    W: Write,
+{
+    fn write(&self, writer: &mut EventWriter<W>) -> Result<(), Error> {
+        if let Some(value) = self.as_ref() {
+            value.write(writer)?;
+        }
+        Ok(())
+    }
+}

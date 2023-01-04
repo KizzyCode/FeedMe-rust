@@ -36,6 +36,28 @@ where
     }
 }
 
+/// An image reference
+#[derive(Debug, Clone)]
+pub struct Image {
+    /// The URL to the image
+    pub url: String,
+}
+impl<T> XmlWrite<T> for Image
+where
+    T: Write,
+{
+    fn write(&self, writer: &mut EventWriter<T>) -> Result<(), Error> {
+        // Serialize the tag
+        let tag_start = XmlEvent::start_element("itunes:image").attr("href", &self.url);
+        writer.write(tag_start)?;
+
+        // Close element
+        let tag_end = XmlEvent::end_element().name("itunes:image");
+        writer.write(tag_end)?;
+        Ok(())
+    }
+}
+
 /// A playlist item
 #[derive(Debug, Clone)]
 pub struct Item {
@@ -89,7 +111,7 @@ pub struct Channel {
     /// The playlist description (`description`)
     pub description: Option<String>,
     /// The link to the playlist thumbnail (`itunes:image`)
-    pub itunes_image: Option<String>,
+    pub itunes_image: Option<Image>,
     /// The playlist member items
     pub items: Vec<Item>,
 }
@@ -104,7 +126,7 @@ where
         self.link.write("link", writer)?;
         self.itunes_author.write("itunes:author", writer)?;
         self.description.write("description", writer)?;
-        self.itunes_image.write("itunes:image", writer)?;
+        self.itunes_image.write(writer)?;
 
         // Write items
         for item in &self.items {

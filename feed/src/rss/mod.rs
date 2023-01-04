@@ -5,7 +5,7 @@ mod schema;
 
 use crate::rss::{
     helpers::XmlWrite,
-    schema::{Channel, Enclosure, Feed, Item},
+    schema::{Channel, Enclosure, Feed, Image, Item},
 };
 use feedme_shared::{error, Entry, Error, Playlist};
 use std::{
@@ -20,11 +20,14 @@ pub fn build_feed(base_url: &str, webroot: &str) -> Result<(), Error> {
     // Load the metadata
     let (playlist, entries) = collect_metadata()?;
 
+    // Generate the thumbnail item
+    let mut thumbnail = None;
+    if let Some(thumbnail_) = playlist.thumbnail {
+        let url = absolute_url(&thumbnail_, webroot, base_url)?;
+        thumbnail = Some(Image { url });
+    }
+
     // Serialize playlist
-    let thumbnail = match playlist.thumbnail {
-        Some(thumbnail) => Some(absolute_url(&thumbnail, webroot, base_url)?),
-        None => None,
-    };
     let mut channel = Channel {
         title: playlist.title,
         link: playlist.url,
