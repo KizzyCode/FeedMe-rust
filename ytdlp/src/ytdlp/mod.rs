@@ -58,12 +58,12 @@ fn translate_entry_meta(name: String, meta: EntryMeta) -> Result<(), Error> {
     // Check if the entry exists already
     let entry_json_name = format!("playlist-entry{:05}.feedme", meta.playlist_index - 1);
     if Path::new(&entry_json_name).exists() {
-        eprintln!("[feedme-ytdlp] skipping existing entry: {video_name}");
+        eprintln!("[feedme-ytdlp] Skipping existing entry: {video_name}");
         return Ok(());
     }
 
     // Get the file metadata and compute UUID
-    eprintln!("[feedme-ytdlp] computing UUID for: {video_name}");
+    eprintln!("[feedme-ytdlp] Computing UUID for: {video_name}");
     let file_meta = fs::metadata(&video_name)?;
     let file_uuid = UuidBuilder::new().context(&meta.id).finalize(&video_name)?;
 
