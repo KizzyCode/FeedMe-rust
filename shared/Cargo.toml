@@ -11,11 +11,6 @@ repository = "https://github.com/KizzyCode/FeedMe-rust"
 readme = "README.md"
 
 
-[[bin]]
-name = "feedme-feed"
-path = "src/main.rs"
-
-
 [badges]
 appveyor = { repository = "KizzyCode/FeedMe-rust" }
 
