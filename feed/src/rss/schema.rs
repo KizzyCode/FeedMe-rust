@@ -63,6 +63,8 @@ where
 pub struct Item {
     /// An item's title (`title`)
     pub title: String,
+    /// The episode number (`itunes:episode`)
+    pub itunes_episode: u64,
     /// The item's description (`description`)
     pub description: Option<String>,
     /// An item's enclosure tag (`enclosure`)
@@ -89,6 +91,7 @@ where
         // Write object
         writer.write(XmlEvent::start_element("item"))?;
         self.title.write("title", writer)?;
+        self.itunes_episode.write("itunes:episode", writer)?;
         self.description.write("description", writer)?;
         self.enclosure.write(writer)?;
         self.guid.write("guid", writer)?;
@@ -104,6 +107,8 @@ where
 pub struct Channel {
     /// The playlist title (`title`)
     pub title: String,
+    /// The playlist type (`itunes:type`)
+    pub itunes_type: String,
     /// The link to the playlist website (`link`)
     pub link: Option<String>,
     /// The playlist author (`itunes:author`)
@@ -123,6 +128,7 @@ where
         // Write object
         writer.write(XmlEvent::start_element("channel"))?;
         self.title.write("title", writer)?;
+        self.itunes_type.write("itunes:type", writer)?;
         self.link.write("link", writer)?;
         self.itunes_author.write("itunes:author", writer)?;
         self.description.write("description", writer)?;

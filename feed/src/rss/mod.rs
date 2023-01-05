@@ -30,6 +30,7 @@ pub fn build_feed(base_url: &str, webroot: &str) -> Result<(), Error> {
     // Serialize playlist
     let mut channel = Channel {
         title: playlist.title,
+        itunes_type: "Serial".to_string(),
         link: playlist.url,
         itunes_author: playlist.author,
         description: playlist.description,
@@ -38,7 +39,7 @@ pub fn build_feed(base_url: &str, webroot: &str) -> Result<(), Error> {
     };
 
     // Serialize items
-    for entry in entries {
+    for (index, entry) in entries.into_iter().enumerate() {
         // Build the enclosure entry referencing the file
         let enclosure = {
             let url = absolute_url(&entry.file, webroot, base_url)?;
@@ -48,6 +49,7 @@ pub fn build_feed(base_url: &str, webroot: &str) -> Result<(), Error> {
         // Create the playlist item
         let item = Item {
             title: entry.title,
+            itunes_episode: (index as u64) + 1,
             description: entry.description,
             enclosure,
             guid: entry.uuid,
