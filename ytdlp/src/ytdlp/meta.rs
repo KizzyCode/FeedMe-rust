@@ -6,6 +6,7 @@ use serde_json::Value;
 
 /// A playlist thumbnail item
 #[derive(Debug, Clone, Deserialize)]
+#[allow(unused)]
 pub struct Thumbnail {
     /// The thumbnail URL
     pub url: String,
@@ -17,6 +18,7 @@ pub struct Thumbnail {
 
 /// Playlist metadata
 #[derive(Debug, Clone, Deserialize)]
+#[allow(unused)]
 pub struct PlaylistMeta {
     /// The human readable playlist title
     pub title: String,

@@ -28,6 +28,7 @@ impl<'a> UuidBuilder<'a> {
     pub const DEFAULT_CONTEXT: [u8; 0] = *b"";
 
     /// Creates a new UUID builder
+    #[allow(clippy::new_without_default)]
     pub const fn new() -> Self {
         Self { domain: None, context: None }
     }
