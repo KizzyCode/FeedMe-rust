@@ -1,9 +1,10 @@
 # Ignore .DS_Store
 .DS_Store
 
-# Ignore build results
+# Ignore artifacts
 /Cargo.lock
 /target
+/.venv
 
 # Ignore some vscode files
 .vscode/*
