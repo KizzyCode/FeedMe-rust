@@ -64,6 +64,6 @@ fn ffprobe_duration(file: &Path) -> Result<Duration, Error> {
 
     // Get and parse stdout
     let stdout = String::from_utf8(result.stdout)?;
-    let duration_secs: f64 = stdout.parse()?;
+    let duration_secs: f64 = stdout.trim().parse()?;
     Ok(Duration::from_secs_f64(duration_secs))
 }
