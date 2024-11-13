@@ -30,7 +30,7 @@ export FEEDME_BASE_URL=https://example.org
 feedme-feed
 ```
 
-## Example `feedme-feed`
+## Example `feedme-manual`
 ```sh
 # Create the feedme metadata files
 feedme-manual --title="My fancy playlist title" \
