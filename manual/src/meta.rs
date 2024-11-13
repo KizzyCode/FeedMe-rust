@@ -51,7 +51,7 @@ fn ffprobe_duration(file: &Path) -> Result<Duration, Error> {
         // Input file
         .arg("-i").arg(file.as_os_str())
         // Output format
-        .arg("-show_entries").arg("format=duration").arg("-of").arg(r#"csv="p=0""#)
+        .arg("-show_entries").arg("format=duration").arg("-of").arg("csv=p=0")
         // Run the command
         .output()?;
 
