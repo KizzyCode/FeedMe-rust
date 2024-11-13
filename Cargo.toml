@@ -1,7 +1,3 @@
 [workspace]
 
-members = [
-    "shared",
-    "feed",
-    "ytdlp"
-]
+members = ["shared", "feed", "ytdlp", "manual"]

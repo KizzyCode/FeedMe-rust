@@ -7,7 +7,7 @@
 FeedMe is a collection of libraries and tools to create podcast feeds from various sources.
 
 
-## Example
+## Example `feedme-ytdlp`
 ```sh
 # Download the playlist and metadata as mp4
 yt-dlp --write-info-json --write-playlist-metafiles \
@@ -19,6 +19,22 @@ yt-dlp --write-info-json --write-playlist-metafiles \
 
 # Extract and canonicalize the yt-dlp generated metadata
 feedme-ytdlp
+
+# Export the webroot and server URL
+#   This is necessary to build an absolute URL from a filesystem
+#   path that leads to your server
+export FEEDME_WEBROOT=/var/www
+export FEEDME_BASE_URL=https://example.org
+
+# Generate the feed into feed.rss
+feedme-feed
+```
+
+## Example `feedme-feed`
+```sh
+# Create the feedme metadata files
+feedme-manual --title="My fancy playlist title" \
+    video0.mp4 my-video1.mp4 next-video2.m4v
 
 # Export the webroot and server URL
 #   This is necessary to build an absolute URL from a filesystem

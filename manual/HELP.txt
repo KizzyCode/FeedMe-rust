@@ -1,0 +1,35 @@
+Usage: feedme-manual --title=<feed-title> <video-files...>
+
+Manually creates a feed playlist for the given video files in the given order.
+
+
+Example:
+    # Create the feedme metadata files
+    feedme-manual --title="My fancy playlist title" \
+        video0.mp4 my-video1.mp4 next-video2.m4v
+    
+    # Export the webroot and server URL
+    #   This is necessary to build an absolute URL from a filesystem
+    #   path that leads to your server
+    export FEEDME_WEBROOT=/var/www
+    export FEEDME_BASE_URL=https://example.org
+
+    # Generate the feed into feed.rss
+    feedme-feed
+
+
+Supported arguments:
+    --title=<text>
+        The title of the feed (required)
+
+    --description=<optional text>
+        The description of the feed (optional)
+
+    --author=<optional text>
+        The author of the feed (optional)
+
+    --thumbnail=<optional url>
+        The path to a thumbnail image (optional)
+
+    --url=<optional url>
+        The URL to the associated website (optional)
