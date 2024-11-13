@@ -1,3 +1,4 @@
 [workspace]
 
 members = ["shared", "feed", "ytdlp", "manual"]
+resolver = "2"
