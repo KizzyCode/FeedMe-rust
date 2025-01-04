@@ -1,17 +1,13 @@
 //! A UUID
 
 use crate::error::Error;
-use blake2::{
-    digest::{Update, VariableOutput},
-    Blake2bVar,
-};
+use blake2::digest::{Update, VariableOutput};
+use blake2::Blake2bVar;
 use serde::{Deserialize, Serialize};
-use std::{
-    fmt::{self, Display, Formatter},
-    fs::File,
-    io::{BufRead, BufReader},
-    path::Path,
-};
+use std::fmt::{self, Display, Formatter};
+use std::fs::File;
+use std::io::{BufRead, BufReader};
+use std::path::Path;
 
 /// A builder to create deterministic file-unique UUIDs
 #[derive(Debug, Clone, Copy)]

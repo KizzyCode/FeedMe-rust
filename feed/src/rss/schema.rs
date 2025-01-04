@@ -3,8 +3,10 @@
 use crate::rss::helpers::{XmlWrite, XmlWritePrimitive};
 use feedme_shared::{error, Error, Uuid};
 use std::io::Write;
-use time::{format_description::well_known::Rfc2822, OffsetDateTime};
-use xml::{writer::XmlEvent, EventWriter};
+use time::format_description::well_known::Rfc2822;
+use time::OffsetDateTime;
+use xml::writer::XmlEvent;
+use xml::EventWriter;
 
 /// An enclosure object
 #[derive(Debug, Clone)]

@@ -1,9 +1,9 @@
 //! Some XML helpers
 
-use std::io::Write;
-
 use feedme_shared::{Error, Uuid};
-use xml::{writer::XmlEvent, EventWriter};
+use std::io::Write;
+use xml::writer::XmlEvent;
+use xml::EventWriter;
 
 /// A trait for untagged primitives that can be written to an XML document
 pub trait XmlWritePrimitive<T>

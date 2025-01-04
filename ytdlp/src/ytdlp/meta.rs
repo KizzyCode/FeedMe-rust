@@ -1,6 +1,7 @@
 //! Metadata schemas
 
-use crate::{error, error::Error};
+use crate::error;
+use crate::error::Error;
 use serde::Deserialize;
 use serde_json::Value;
 

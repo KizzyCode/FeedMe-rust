@@ -2,7 +2,9 @@
 
 use crate::meta;
 use feedme_shared::{Error, Playlist};
-use std::{collections::HashMap, fs, path::Path};
+use std::collections::HashMap;
+use std::fs;
+use std::path::Path;
 
 /// Batch processes the given files in the given order and creates a playlist entry from the args
 pub fn batch_process(args: HashMap<String, String>, files: Vec<String>) -> Result<(), Error> {

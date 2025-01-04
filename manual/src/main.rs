@@ -4,7 +4,8 @@ mod batch;
 mod meta;
 
 use feedme_shared::{error, Error};
-use std::{collections::HashMap, env, process};
+use std::collections::HashMap;
+use std::{env, process};
 
 /// Displays the error and exits with status `2`
 fn exit_error(e: Error) -> ! {

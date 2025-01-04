@@ -3,16 +3,12 @@
 mod helpers;
 mod schema;
 
-use crate::rss::{
-    helpers::XmlWrite,
-    schema::{Channel, Enclosure, Feed, Image, Item},
-};
+use crate::rss::helpers::XmlWrite;
+use crate::rss::schema::{Channel, Enclosure, Feed, Image, Item};
 use feedme_shared::{error, Entry, Error, Playlist};
-use std::{
-    collections::BTreeSet,
-    fs::{self, File},
-    path::{Component, Path},
-};
+use std::collections::BTreeSet;
+use std::fs::{self, File};
+use std::path::{Component, Path};
 use xml::{EmitterConfig, EventWriter};
 
 /// Builds a podcast feed from existing .feedme-metadata files
@@ -73,7 +69,8 @@ pub fn build_feed(base_url: &str, webroot: &str) -> Result<(), Error> {
 /// Collect all metadata files
 fn collect_metadata() -> Result<(Playlist, Vec<Entry>), Error> {
     // Read the playlist
-    let playlist_bin = fs::read("playlist-meta.feedme")?;
+    let playlist_bin =
+        fs::read("playlist-meta.feedme").map_err(|e| error!(with: e, r#"Failed to open "playlist-meta.feedme""#))?;
     let playlist = serde_json::from_slice(&playlist_bin)?;
 
     // List all entry files and sort them
@@ -106,7 +103,7 @@ fn collect_metadata() -> Result<(Playlist, Vec<Entry>), Error> {
     let mut entries = Vec::new();
     for entry_name in entry_names {
         // Parse the entry
-        let entry_bin = fs::read(entry_name)?;
+        let entry_bin = fs::read(&entry_name).map_err(|e| error!(with: e, r#"Failed to open "{entry_name}""#))?;
         let entry = serde_json::from_slice(&entry_bin)?;
         entries.push(entry);
     }
@@ -116,7 +113,7 @@ fn collect_metadata() -> Result<(Playlist, Vec<Entry>), Error> {
 /// Creates an absolute URL for a file path
 fn absolute_url(file: &str, webroot: &str, base_url: &str) -> Result<String, Error> {
     // Create the relative path
-    let canonical = Path::new(file).canonicalize()?;
+    let canonical = Path::new(file).canonicalize().map_err(|e| error!(with: e, r#"Failed canonicalize "{file}""#))?;
     if !canonical.starts_with(webroot) {
         return Err(error!("file is not within webroot: {}", canonical.display()));
     }

@@ -5,8 +5,12 @@ mod meta;
 use crate::ytdlp::meta::{EntryMeta, Meta, PlaylistMeta};
 use feedme_shared::{error, Entry, Error, Playlist, UuidBuilder};
 use serde_json::Value;
-use std::{collections::BTreeMap, fs, path::Path};
-use time::{format_description::FormatItem, macros::format_description, Date};
+use std::collections::BTreeMap;
+use std::fs;
+use std::path::Path;
+use time::format_description::FormatItem;
+use time::macros::format_description;
+use time::Date;
 
 /// Canonicalizes the metadata
 pub fn canonicalize_meta() -> Result<(), Error> {

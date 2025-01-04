@@ -1,11 +1,9 @@
 //! Get file information
 
 use feedme_shared::{error, Entry, Error, UuidBuilder};
-use std::{
-    path::Path,
-    process::Command,
-    time::{Duration, UNIX_EPOCH},
-};
+use std::path::Path;
+use std::process::Command;
+use std::time::{Duration, UNIX_EPOCH};
 
 /// Collects the metadata for a video file
 pub fn read_metadata(file: &str) -> Result<Entry, Error> {
