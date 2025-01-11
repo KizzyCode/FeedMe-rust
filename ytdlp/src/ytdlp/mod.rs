@@ -116,6 +116,7 @@ fn collect_metadata() -> Result<BTreeMap<String, Meta>, Error> {
         }
 
         // Read and parse the entry
+        eprintln!("[feedme-ytdlp] Ingesting: {}", entry.path().display());
         let json_raw = fs::read(entry.path())?;
         let json: Value = serde_json::from_slice(&json_raw)?;
         let meta = Meta::try_from(json)?;
